@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "H7ChC4/4J58JI8b3O+lsDP+coiNDO329qFMrhkEkWA3v1vdX8j7BpmhZFeb1ogAcxGxvlWEKWTDT+UFg1h4s8w==",
+  "dgSpecHash": "x5qLFvdGWJ4oy/dygG1cBnUqyxpPuCut1d9mXx6dLzT1j+DJbDyDuvHJVfDItCk2kCGDtVoZUP00w2DsNxBAnA==",
   "success": true,
   "projectFilePath": "/Users/logandietel/console-projects/blogging-console-app/blogging-console-app.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/logandietel/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/logandietel/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "/Users/logandietel/.nuget/packages/npgsql/8.0.3/npgsql.8.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
