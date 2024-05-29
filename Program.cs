@@ -2,12 +2,16 @@
 using Controllers.SelectionMenu;
 using BlogApp.Controllers;
 using BlogApp.Utilities;
+using BlogApp.Repositories;
 
 namespace BlogApp;
 class Program
 {
     static void Main(string[] args)
     {
+        PostRepository.InitializeDatabase();
+        PostRepository.CreateTable();
+
         while (true)
         {
             Console.Clear();

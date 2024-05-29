@@ -5,7 +5,41 @@ namespace BlogApp.Repositories;
 public class PostRepository
 {
     // Add connection details here for postgres
-    private static string connectionString = "";
+    private static string connectionString = "Host=localhost;Username=_______;Password=_______;";
+
+    public static void InitializeDatabase()
+    {
+        using (var connection = new NpgsqlConnection(connectionString))
+        {
+            connection.Open();
+           
+            string checkDatabaseQuery = "SELECT 1 FROM pg_database WHERE datname = 'blog_app';";
+            var checkCommand = new NpgsqlCommand(checkDatabaseQuery, connection);
+            var reader = checkCommand.ExecuteReader();
+
+            if (!reader.HasRows)
+            {
+                reader.Close();
+
+                var createDatabaseText = "CREATE DATABASE blog_app";
+                var databaseCommand = new NpgsqlCommand(createDatabaseText, connection);
+                databaseCommand.ExecuteNonQuery();
+            }
+            connectionString = $"Host=localhost;Username=logandietel;Password=password;Database=blog_app;";
+
+            reader.Close();
+        }
+    } 
+    public static void CreateTable()
+    {
+        using (var connection = new NpgsqlConnection(connectionString))
+        {
+            connection.Open();
+            string createTableQuery = "CREATE TABLE IF NOT EXISTS posts (id SERIAL PRIMARY KEY, title VARCHAR(100), author VARCHAR(50), content TEXT, date TIMESTAMP);";
+            var createTableCommand = new NpgsqlCommand(createTableQuery, connection);
+            createTableCommand.ExecuteNonQuery();
+        }
+    } 
 
     public void CreatePost(int id, string title, string author, string content, DateTime date)
     {
@@ -14,7 +48,7 @@ public class PostRepository
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                string commandText = "INSERT INTO authors (id, title, author, content, date) VALUES (@id, @title, @author, @content, @date)";
+                string commandText = "INSERT INTO posts (id, title, author, content, date) VALUES (@id, @title, @author, @content, @date)";
                 var command = new NpgsqlCommand(commandText, connection);
 
                 command.Parameters.AddWithValue("@id", id);
@@ -26,7 +60,7 @@ public class PostRepository
                 command.ExecuteNonQuery();
 
                 Console.Clear();
-                Console.WriteLine("Post {id} has been created. \nPress 'enter' to continue.");
+                Console.WriteLine($"Post {id} has been created. \nPress 'enter' to continue.");
                 Console.ReadLine();
             }
         } catch (Exception ex)
@@ -43,7 +77,7 @@ public class PostRepository
             {
                 connection.Open();
 
-                string commandText = $"DELETE FROM authors WHERE id = @id;";
+                string commandText = $"DELETE FROM posts WHERE id = @id;";
                 var command = new NpgsqlCommand(commandText, connection);
                 command.Parameters.AddWithValue("@id", id);
                 command.ExecuteNonQuery();    
@@ -67,7 +101,7 @@ public class PostRepository
             {
                 connection.Open();
 
-                string commandText = "UPDATE authors SET content = @content, date = @date WHERE id = @id;";
+                string commandText = "UPDATE posts SET content = @content, date = @date WHERE id = @id;";
                 
                 var command = new NpgsqlCommand(commandText, connection);
                 command.Parameters.AddWithValue("@content", content);
@@ -99,9 +133,9 @@ public class PostRepository
 
                 string query;
                 if (column == "date")
-                    query = $"SELECT * FROM authors WHERE {column}::date = @value;";
+                    query = $"SELECT * FROM posts WHERE {column}::date = @value;";
                 else 
-                    query = $"SELECT * FROM authors WHERE {column}::text ILIKE '%' || @value || '%';";
+                    query = $"SELECT * FROM posts WHERE {column}::text ILIKE '%' || @value || '%';";
 
                 var command = new NpgsqlCommand(query, connection);
                 command.Parameters.AddWithValue("@column", column);
@@ -135,7 +169,7 @@ public class PostRepository
             {
                 connection.Open();
 
-                string query = $"SELECT * FROM authors WHERE id = @id;";
+                string query = $"SELECT * FROM posts WHERE id = @id;";
                 var command = new NpgsqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", id);
 
@@ -180,7 +214,7 @@ public class PostRepository
             {
                 connection.Open();
 
-                string commandText = $"SELECT MAX(id) AS max_id FROM authors;";
+                string commandText = $"SELECT MAX(id) AS max_id FROM posts;";
                 var command = new NpgsqlCommand(commandText, connection);
                 result = (int?)command.ExecuteScalar();
             }
@@ -191,8 +225,6 @@ public class PostRepository
         else 
             return 0;        
     }
-
-    
 
     static public int GetIdForExistingPost(string actionType)
     {
@@ -207,7 +239,7 @@ public class PostRepository
                 {
                     connection.Open();
 
-                    string query = $"SELECT * FROM authors WHERE id = @id;";
+                    string query = $"SELECT * FROM posts WHERE id = @id;";
                     var command = new NpgsqlCommand(query, connection);    
 
                     var results = command.ExecuteScalar();
