@@ -1,45 +1,17 @@
 using Npgsql;
 using BlogApp.Utilities;
 
-namespace BlogApp.Repositories;
-public class PostRepository
+namespace BlogApp.PostRepository;
+public class PostRepo
 {
     // Add connection details here for postgres
-    private static string connectionString = "Host=localhost;Username=_______;Password=_______;";
+    private static string connectionString = "Host=localhost;Username=logandietel;Password=password;";
 
-    public static void InitializeDatabase()
+    public static string ConnectionString
     {
-        using (var connection = new NpgsqlConnection(connectionString))
-        {
-            connection.Open();
-           
-            string checkDatabaseQuery = "SELECT 1 FROM pg_database WHERE datname = 'blog_app';";
-            var checkCommand = new NpgsqlCommand(checkDatabaseQuery, connection);
-            var reader = checkCommand.ExecuteReader();
-
-            if (!reader.HasRows)
-            {
-                reader.Close();
-
-                var createDatabaseText = "CREATE DATABASE blog_app";
-                var databaseCommand = new NpgsqlCommand(createDatabaseText, connection);
-                databaseCommand.ExecuteNonQuery();
-            }
-            connectionString = $"Host=localhost;Username=logandietel;Password=password;Database=blog_app;";
-
-            reader.Close();
-        }
-    } 
-    public static void CreateTable()
-    {
-        using (var connection = new NpgsqlConnection(connectionString))
-        {
-            connection.Open();
-            string createTableQuery = "CREATE TABLE IF NOT EXISTS posts (id SERIAL PRIMARY KEY, title VARCHAR(100), author VARCHAR(50), content TEXT, date TIMESTAMP);";
-            var createTableCommand = new NpgsqlCommand(createTableQuery, connection);
-            createTableCommand.ExecuteNonQuery();
-        }
-    } 
+        get { return connectionString; }
+        set { connectionString = value; }
+    }
 
     public void CreatePost(int id, string title, string author, string content, DateTime date)
     {

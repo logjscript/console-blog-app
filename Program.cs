@@ -1,16 +1,15 @@
 ﻿using Controllers.SearchPosts;
 using Controllers.SelectionMenu;
 using BlogApp.Controllers;
-using BlogApp.Utilities;
-using BlogApp.Repositories;
+using BlogApp.DatabaseRepository;
 
 namespace BlogApp;
 class Program
 {
     static void Main(string[] args)
     {
-        PostRepository.InitializeDatabase();
-        PostRepository.CreateTable();
+        DatabaseRepo.InitializeDatabase();
+        DatabaseRepo.CreateTable();
 
         while (true)
         {

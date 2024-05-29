@@ -1,4 +1,4 @@
-using BlogApp.Repositories;
+using BlogApp.PostRepository;
 using BlogApp.Utilities;
 
 namespace Controllers.SearchPosts;
@@ -34,7 +34,7 @@ public class SearchPosts
     
     public void SearchPostsByType()
     {  
-        var postRepository = new PostRepository();
+        var postRepository = new PostRepo();
         string search = possibleSelections[SelectSearchType()];
 
         if (search == "title") 
