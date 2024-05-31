@@ -24,7 +24,7 @@ public class DatabaseRepo
                 var databaseCommand = new NpgsqlCommand(createDatabaseText, connection);
                 databaseCommand.ExecuteNonQuery();
             }
-            PostRepo.ConnectionString = $"Host=localhost;Username=logandietel;Password=password;Database=blog_app;";
+            PostRepo.ConnectionString = $"{PostRepo.ConnectionString}Database=blog_app;";
 
             reader.Close();
         }

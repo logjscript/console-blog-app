@@ -21,7 +21,7 @@ public class PostController
     public void ReadPost()
     {
         int id = GetValidInputs.GetValidInt("Enter the ID of the post you would like to read.");
-        _postRepository.GetPostById(id);
+        _postRepository.ReadPost(id);
     }
 
     public void UpdatePost()

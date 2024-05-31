@@ -111,7 +111,13 @@ public class PostRepo
 
                 var command = new NpgsqlCommand(query, connection);
                 command.Parameters.AddWithValue("@column", column);
-                command.Parameters.AddWithValue("@value", value);
+                if (value != null)
+                    command.Parameters.AddWithValue("@value", value);
+                else 
+                {
+                    Console.WriteLine("No value was given to the search.");
+                    return;
+                }
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -133,7 +139,7 @@ public class PostRepo
         }
     }
 
-    public void GetPostById(int id)
+    public void ReadPost(int id)
     {
         try
         {
@@ -169,8 +175,8 @@ public class PostRepo
         while (true)
         {
             Console.WriteLine("Type 'exit' to return to menu");
-            string exitString = Console.ReadLine();
-            if (exitString.ToLower() == "exit")
+            string? exitString = Console.ReadLine();
+            if (exitString != null && exitString.ToLower() == "exit")
                 break;
         }
     }
