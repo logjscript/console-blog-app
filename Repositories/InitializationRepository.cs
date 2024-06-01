@@ -1,10 +1,9 @@
 using Npgsql;
 using BlogApp.PostRepository;
-using BlogApp.Utilities;
 
-namespace BlogApp.DatabaseRepository;
+namespace BlogApp.InitializeDatabase;
 
-public class DatabaseRepo
+public class Initialize
 {
     public static void InitializeDatabase()
     {

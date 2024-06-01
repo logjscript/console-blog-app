@@ -6,21 +6,21 @@ public class SelectionMenu
     };
     public int SelectActionType()
     {
-        string displayedSelections = "\n 1. Create a post\n 2. Read a post\n 3. Update a post\n 4. Delete a post";
+        string displayedSelections = "\n\n 1. Create a post\n\n 2. Read a post\n\n 3. Update a post\n\n 4. Delete a post";
         Console.WriteLine($"Hello. Please select what you would like to do. {displayedSelections}");
         
         int selection;
+
         while (true)
         {
-            try
-            {
-                 selection = int.Parse(Console.ReadLine());
-                 if (possibleSelections.ContainsKey(selection))
-                     break;
-            } catch {}
+            if (int.TryParse(Console.ReadLine(), out selection) && possibleSelections.ContainsKey(selection))
+                    break;
+
             Console.Clear();
-            Console.WriteLine($"Please choose a valid selection. {displayedSelections}");
+            Console.WriteLine($"Please make a valid selection. {displayedSelections}");       
         }
+
+        Console.Clear();
         return selection;
     }
 }

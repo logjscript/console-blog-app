@@ -1,5 +1,5 @@
 namespace BlogApp.Utilities;
-public static class GetValidInputs
+public static class InputValidator
 {
     public static int GetValidInt(string prompt)
     {
