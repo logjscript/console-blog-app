@@ -31,7 +31,7 @@ public class SearchPosts
                 return (T)(object)parsedDate;
             else 
             {
-                Console.WriteLine("Date format is incorrect. Please try again.");
+                Console.WriteLine("Date is not formatted correctly. Please try again.");
                 return GetSearchInput<T>(searchType);
             }
         else
